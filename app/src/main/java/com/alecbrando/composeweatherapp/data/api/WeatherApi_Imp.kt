@@ -2,15 +2,13 @@ package com.alecbrando.composeweatherapp.data.api
 
 import com.alecbrando.composeweatherapp.data.model.WeatherResponse
 import retrofit2.Response
+import javax.inject.Inject
 
-class WeatherApi_Imp : WeatherApi {
-    override suspend fun getCurrentLocationsWeather(
-        api_key: String,
-        units: String,
-        params: String,
+class WeatherApi_Imp @Inject constructor(
+    private val weatherApi : WeatherApi
+) {
+    suspend fun getCurrentLocationsWeather(
         lat: String,
         lon: String
-    ): Response<WeatherResponse> {
-        TODO("Not yet implemented")
-    }
+    ): Response<WeatherResponse> = weatherApi.getCurrentLocationsWeather(lat = lat, lon = lon)
 }
