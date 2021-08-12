@@ -1,5 +1,6 @@
 package com.alecbrando.composeweatherapp.data.repository
 
+import android.util.Log
 import com.alecbrando.composeweatherapp.Util.Resource
 import com.alecbrando.composeweatherapp.data.api.WeatherApi_Imp
 import com.alecbrando.composeweatherapp.data.model.WeatherResponse
@@ -11,8 +12,11 @@ import javax.inject.Inject
 class Repository @Inject constructor(
     private val weatherApiImp: WeatherApi_Imp
 ) {
-    suspend fun getCurrentLocationsWeather(lat : String, lon : String) : Flow<Resource<WeatherResponse>> = flow {
-        emit(Resource.Loading())
+    suspend fun getCurrentLocationsWeather(
+        lat: String,
+        lon: String
+    ): Flow<Resource<WeatherResponse>> = flow {
+
         val res = weatherApiImp.getCurrentLocationsWeather(lat, lon)
         try {
             if (res.isSuccessful && res.body() != null) {
@@ -20,7 +24,7 @@ class Repository @Inject constructor(
             } else {
                 emit(Resource.Error(null, message = "Something went wrong"))
             }
-        } catch (e : Exception){
+        } catch (e: Exception) {
             emit(Resource.Error(null, message = e.localizedMessage ?: "Something went wrong"))
         }
     }
